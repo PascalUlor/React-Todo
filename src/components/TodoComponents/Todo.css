@@ -1,0 +1,10 @@
+.todo__text{
+    border: 1px solid salmon;
+    border-radius: .5rem;
+    padding: .5rem;
+    background-color: #fff;
+}
+
+.button__style {
+    padding: 1rem 3rem 0 0;
+}

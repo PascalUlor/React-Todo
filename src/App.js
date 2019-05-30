@@ -1,11 +1,9 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import './App.css';
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
   constructor(props) {
     super(props);
     this.state = {
@@ -91,27 +89,37 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm
-          formType='Search'
-          value={this.state.taskTitle}
-          handleChange={this.handleChange}
-          searchQuery={this.handleSearch}
-        />
-        {this.state.todos ?
-          <TodoList
-            list={this.state.todos}
-            select={this.selectHandler}
-          />
-          : <p>No data available</p>}
-        <TodoForm
-          formType='Add Task'
-          value={this.state.taskTitle}
-          handleChange={this.handleChange}
-          updateList={this.updateList}
-          deleteHandler = {this.deleteHandler}
-        />
+        <div className="components__container">
+          <div className="input__container">
+            <TodoForm
+              formType='Search'
+              value={this.state.taskTitle}
+              handleChange={this.handleChange}
+              searchQuery={this.handleSearch}
+            />
+
+            <TodoForm
+              formType='Add Task'
+              value={this.state.taskTitle}
+              handleChange={this.handleChange}
+              updateList={this.updateList}
+              deleteHandler={this.deleteHandler}
+            />
+          </div>
+          <div className="todo_container">
+          <h4>Tasks</h4>
+            {this.state.todos ?
+              <TodoList
+                list={this.state.todos}
+                select={this.selectHandler}
+              />
+              : <p>No data available</p>}
+          </div>
+
+        </div>
+
       </div>
     );
   }
