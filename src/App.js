@@ -1,12 +1,10 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import './App.css';
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       todos: [],
@@ -22,7 +20,7 @@ class App extends React.Component {
     })
   }
 
-  handleChange = (event)=>{
+  handleChange = (event) => {
     this.setState({
       taskTitle: event.target.value,
     })
@@ -35,10 +33,10 @@ class App extends React.Component {
       id: Date.now(),
       completed: false,
     };
-    if(this.state.todos.length === 0) {
+    if (this.state.todos.length === 0) {
       await this.setState({
-  todos: [newTask]
-})
+        todos: [newTask]
+      })
     } else {
       await this.setState({
         todos: [...this.state.todos, newTask]
@@ -50,36 +48,78 @@ class App extends React.Component {
   handleSearch = (e) => {
     e.preventDefault();
     const data = JSON.parse(localStorage.getItem('todos'));
-    console.log(data);
     const query = [];
     data.map(task => {
-      if(task.task.toLowerCase().includes(e.target.value.toLowerCase())) {
+      if (task.task.toLowerCase().includes(e.target.value.toLowerCase())) {
         query.push(task);
       }
-      console.log(query);
-    return query
-  });
+      return query
+    });
     this.setState({
       todos: query
     })
   }
+
+  selectHandler = async (id) => {
+    console.log('selected');
+    const data = JSON.parse(localStorage.getItem('todos'));
+    const checkTask = data.map(task => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed }
+      }
+      return task;
+    });
+    await this.setState({
+      ...this.state,
+      todos: checkTask
+    });
+    await localStorage.setItem("todos", JSON.stringify(this.state.todos))
+  }
+
+  deleteHandler = async () => {
+    console.log('deleted');
+    const data = JSON.parse(localStorage.getItem('todos'));
+    const checkTask = data.filter(task => task.completed === false);
+    await this.setState({
+      ...this.state,
+      todos: checkTask
+    });
+    await localStorage.setItem("todos", JSON.stringify(this.state.todos))
+  }
+
   render() {
     return (
-      <div>
+      <div className="container">
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm
-        formType='Search'
-        value={this.state.taskTitle}
-        handleChange = {this.handleChange}
-        searchQuery = {this.handleSearch}
-        />
-        {this.state.todos ? <TodoList list={this.state.todos}/>:<p>No data available</p> }
-        <TodoForm
-        formType='Add Task'
-        value={this.state.taskTitle}
-        handleChange = {this.handleChange}
-        updateList = {this.updateList}
-        />
+        <div className="components__container">
+          <div className="input__container">
+            <TodoForm
+              formType='Search'
+              value={this.state.taskTitle}
+              handleChange={this.handleChange}
+              searchQuery={this.handleSearch}
+            />
+
+            <TodoForm
+              formType='Add Task'
+              value={this.state.taskTitle}
+              handleChange={this.handleChange}
+              updateList={this.updateList}
+              deleteHandler={this.deleteHandler}
+            />
+          </div>
+          <div className="todo_container">
+          <h4>Tasks</h4>
+            {this.state.todos ?
+              <TodoList
+                list={this.state.todos}
+                select={this.selectHandler}
+              />
+              : <p>No data available</p>}
+          </div>
+
+        </div>
+
       </div>
     );
   }

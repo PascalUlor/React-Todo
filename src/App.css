@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 30rem;
+    margin: 0 auto;
+    background-color: darkolivegreen;
+}
+.components__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
+.input__container{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.todo_container{
+    background-color: darkseagreen;
+    border-radius: 1rem;
+    width: 30%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+}
