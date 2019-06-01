@@ -3,12 +3,17 @@ import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
 import './App.css';
 
+// const initialFormState = {
+//   todoInput: ''
+// };
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [],
-      taskTitle: ''
+      taskTitle: '',
+      todoInput: ''
     }
   }
 
@@ -23,6 +28,7 @@ class App extends React.Component {
   handleChange = (event) => {
     this.setState({
       taskTitle: event.target.value,
+      todoInput: event.target.value
     })
   }
 
@@ -35,11 +41,13 @@ class App extends React.Component {
     };
     if (this.state.todos.length === 0) {
       await this.setState({
-        todos: [newTask]
+        todos: [newTask],
+        todoInput: ''
       })
     } else {
       await this.setState({
-        todos: [...this.state.todos, newTask]
+        todos: [...this.state.todos, newTask],
+        todoInput: ''
       })
     }
     await localStorage.setItem('todos', JSON.stringify(this.state.todos));
@@ -105,6 +113,7 @@ class App extends React.Component {
               value={this.state.taskTitle}
               handleChange={this.handleChange}
               updateList={this.updateList}
+              todoInput={this.state.todoInput}
               deleteHandler={this.deleteHandler}
             />
           </div>
