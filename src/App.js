@@ -3,10 +3,6 @@ import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
 import './App.css';
 
-// const initialFormState = {
-//   todoInput: ''
-// };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
